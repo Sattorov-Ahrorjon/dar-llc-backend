@@ -33,6 +33,10 @@ INSTALLED_APPS = [
     # installed apps
     'corsheaders',
     'rest_framework',
+    'drf_yasg',
+
+    # created apps
+    'api',
 ]
 
 MIDDLEWARE = [
