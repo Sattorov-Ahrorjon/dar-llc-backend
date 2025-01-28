@@ -7,6 +7,13 @@ class HomeBannerSerializer(serializers.ModelSerializer):
         model = models.HomeBanner
         fields = ('id', 'banner_title', 'banner_description', 'banner_video')
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['statistic'] = HomeStatisticSerializer(
+            models.HomeStatistic.objects.filter('-created_at').first(), context=self.context
+        ).data
+        return data
+
 
 class HomeStatisticSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +47,7 @@ class LeadershipTeamBannerSerializer(serializers.ModelSerializer):
         )
 
 
-class TeamMemberSearchSerializer(serializers.ModelSerializer):
+class TeamMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.TeamMember
         fields = (
@@ -52,6 +59,13 @@ class EquipmentBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EquipmentBanner
         fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = EquipmentSerializer(
+            models.Equipment.objects.filter('-created_at'), many=True, context=self.context
+        ).data
+        return data
 
 
 class EquipmentSerializer(serializers.ModelSerializer):
@@ -68,6 +82,25 @@ class MaintenanceBannerSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'banner_title', 'banner_description', 'banner_video', 'information_description'
         )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['benefits'] = {
+            'benefits_top_items': MaintenanceBenefitSerializer(
+                models.MaintenanceBenefit.objects.filter('-created_at', is_top=True),
+                many=True, context=self.context
+            ).data,
+            'team_images': MaintenanceBenefitImageSerializer(
+                models.MaintenanceBenefitImage.objects.filter('-created_at'), many=True, context=self.context
+            ).data,
+            'benefits_text': MaintenanceBenefitTextSerializer(
+                models.MaintenanceBenefitText.objects.filter('-created_at').first(), context=self.context
+            ).data,
+            'benefits_items': MaintenanceBenefitSerializer(
+                models.MaintenanceBenefit.objects.filter('-created_at', is_top=False),
+                many=True, context=self.context
+            ).data,
+        }
 
 
 class MaintenanceBenefitTextSerializer(serializers.ModelSerializer):
@@ -100,10 +133,26 @@ class DarNewsSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'description', 'image')
 
 
-class ApartAdvantageCategorySerializer(serializers.ModelSerializer):
+class DarNewsDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.ApartAdvantageCategory
-        fields = ('id', 'title')
+        model = models.DarNews
+        fields = ('id', 'title', 'description', 'image')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional_news'] = DarNewsSerializer(
+            models.DarNews.objects.filter('-created_at'), many=True, context=self.context
+        ).data
+
+        data['apart_advantage'] = ApartAdvantageSerializer(
+            models.ApartAdvantage.objects.filter('-created_at'), many=True, context=self.context
+        ).data
+
+        data['our_requirements'] = OurRequirementSerializer(
+            models.OurRequirement.objects.filter('-created_at'), many=True, context=self.context
+        ).data
+
+        return data
 
 
 class ApartAdvantageSerializer(serializers.ModelSerializer):
@@ -111,8 +160,55 @@ class ApartAdvantageSerializer(serializers.ModelSerializer):
         model = models.ApartAdvantage
         fields = ('id', 'advantage_category', 'advantage_text')
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['advantage_category'] = getattr(instance.advantage_category, 'title', 'Not category')
+        return data
+
 
 class OurRequirementSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.OurRequirement
         fields = ('id', 'title')
+
+
+class RefrigeratedDivisionBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.RefrigeratedDivisionBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+
+class FlatbedDivisionBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.FlatbedDivisionBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+
+class QualificationExpectationBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QualificationExpectationBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = QualificationExpectationSerializer(
+            models.QualificationExpectation.objects.filter('-created_at'), many=True, context=self.context
+        ).data
+        return data
+
+
+class QualificationExpectationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QualificationExpectation
+        fields = ('id', 'category', 'instance')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['category_name'] = dict(models.QualificationCategory).get(instance.category)
+        return data
