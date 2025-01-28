@@ -50,8 +50,8 @@ class HomeStatistic(BaseModel):
 
 
 class CompanyCultureBanner(BaseModel):
-    title = models.CharField(max_length=150)
-    description = models.TextField()
+    banner_title = models.CharField(max_length=150)
+    banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/culture/', validators=[FileExtensionValidator(['jpg'])])
     information_image = models.FileField(
