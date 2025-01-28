@@ -1,15 +1,14 @@
 
-bind = "127.0.0.1:8000"
-workers = 4
-
-worker_connections = 1000
+wsgi_app = 'config.wsgi:application'
+bind = "0.0.0.0:8000"
+workers = 2
 
 worker_class = "sync"
 
 loglevel = "debug"
 
-accesslog = "/var/log/gunicorn/access.log"
-errorlog = "/var/log/gunicorn/error.log"
+# accesslog = "/var/log/gunicorn/access.log"
+# errorlog = "/var/log/gunicorn/error.log"
 
 reload = False
 
