@@ -1,11 +1,11 @@
 from rest_framework import serializers
-import models
+from api import models
 
 
 class HomeBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.HomeBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_video')
+        fields = ('id', 'banner_description', 'banner_video')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -25,7 +25,7 @@ class CompanyCultureBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CompanyCultureBanner
         fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_image',
+            'id', 'banner_description', 'banner_image', 'information_image',
             'information_description'
         )
 
@@ -34,7 +34,7 @@ class CompanyProgramsBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CompanyProgramsBanner
         fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description',
+            'id', 'banner_description', 'banner_image', 'information_description',
             'information_image'
         )
 
@@ -43,7 +43,7 @@ class LeadershipTeamBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LeadershipTeamBanner
         fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description'
+            'id', 'banner_description', 'banner_image', 'information_description'
         )
 
 
@@ -58,7 +58,7 @@ class TeamMemberSerializer(serializers.ModelSerializer):
 class EquipmentBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.EquipmentBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+        fields = ('id', 'banner_description', 'banner_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -80,7 +80,7 @@ class MaintenanceBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MaintenanceBanner
         fields = (
-            'id', 'banner_title', 'banner_description', 'banner_video', 'information_description'
+            'id', 'banner_description', 'banner_video', 'information_description'
         )
 
     def to_representation(self, instance):
@@ -124,7 +124,7 @@ class MaintenanceBenefitImageSerializer(serializers.ModelSerializer):
 class DarNewsBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DarNewsBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+        fields = ('id', 'banner_description', 'banner_image')
 
 
 class DarNewsSerializer(serializers.ModelSerializer):
@@ -175,25 +175,19 @@ class OurRequirementSerializer(serializers.ModelSerializer):
 class RefrigeratedDivisionBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.RefrigeratedDivisionBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
 
 class FlatbedDivisionBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.FlatbedDivisionBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
 
 class QualificationExpectationBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QualificationExpectationBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -217,9 +211,7 @@ class QualificationExpectationSerializer(serializers.ModelSerializer):
 class PayBenefitBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PayBenefitBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -241,7 +233,7 @@ class AboutPayBenefitSerializer(serializers.ModelSerializer):
 class DriverTrainingProgramBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DriverTrainingProgramBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image', 'information_description')
+        fields = ('id', 'banner_description', 'banner_image', 'information_description')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -272,7 +264,7 @@ class TrainingProgramSerializer(serializers.ModelSerializer):
 class CDLHolderBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CDLHolderBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+        fields = ('id', 'banner_description', 'banner_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -291,9 +283,7 @@ class CDLHolderAdvantageSerializer(serializers.ModelSerializer):
 class DriverAwardBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DriverAwardBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -329,7 +319,7 @@ class DriverAwardBodyStarSerializer(serializers.Serializer):
 class JobsSaidTransportBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.JobsSaidTransportBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+        fields = ('id', 'banner_description', 'banner_image')
 
 
 class JobsSaidTransportSerializer(serializers.ModelSerializer):
@@ -360,7 +350,7 @@ class KeyResponsibilitySerializer(serializers.ModelSerializer):
 class BenefitBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.BenefitBanner
-        fields = ('id', 'banner_title', 'banner_description', 'banner_image', 'information_description')
+        fields = ('id', 'banner_description', 'banner_image', 'information_description')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -399,9 +389,7 @@ class ItemSerializer(serializers.Serializer):
 class CompanyCultureSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.CompanyCulture
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -420,9 +408,7 @@ class CompanyCultureItemSerializer(serializers.ModelSerializer):
 class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LeasePurchaseBanner
-        fields = (
-            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
-        )
+        fields = ('id', 'banner_description', 'banner_image', 'information_description', 'information_image')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

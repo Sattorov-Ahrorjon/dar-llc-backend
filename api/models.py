@@ -23,7 +23,6 @@ class BaseModel(models.Model):
 
 
 class HomeBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_video = models.FileField(
         upload_to='banner/home/', validators=[FileExtensionValidator(['mp4'])])
@@ -32,7 +31,7 @@ class HomeBanner(BaseModel):
         ordering = ('-created_at',)
 
     def __str__(self):
-        return self.banner_title
+        return self.banner_description
 
 
 class HomeStatistic(BaseModel):
@@ -50,7 +49,6 @@ class HomeStatistic(BaseModel):
 
 
 class CompanyCultureBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/culture/', validators=[FileExtensionValidator(['jpg'])])
@@ -60,7 +58,6 @@ class CompanyCultureBanner(BaseModel):
 
 
 class CompanyProgramsBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/programs/', validators=[FileExtensionValidator(['jpg'])]
@@ -72,7 +69,6 @@ class CompanyProgramsBanner(BaseModel):
 
 
 class LeadershipTeamBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/teams/', validators=[FileExtensionValidator(['jpg'])]
@@ -90,7 +86,6 @@ class TeamMember(BaseModel):
 
 
 class EquipmentBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/equipment/', validators=[FileExtensionValidator(['jpg'])])
@@ -109,7 +104,6 @@ class Equipment(BaseModel):
 
 
 class MaintenanceBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_video = models.FileField(
         upload_to='banner/maintenance/', validators=[FileExtensionValidator(['mp4'])]
@@ -133,7 +127,6 @@ class MaintenanceBenefitImage(BaseModel):
 
 
 class DarNewsBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/news/', validators=[FileExtensionValidator(['jpg'])]
@@ -162,7 +155,6 @@ class OurRequirement(BaseModel):
 
 
 class RefrigeratedDivisionBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/refrigerated/', validators=[FileExtensionValidator(['jpg'])]
@@ -174,7 +166,6 @@ class RefrigeratedDivisionBanner(BaseModel):
 
 
 class FlatbedDivisionBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/flatbed/', validators=[FileExtensionValidator(['jpg'])]
@@ -186,7 +177,6 @@ class FlatbedDivisionBanner(BaseModel):
 
 
 class QualificationExpectationBanner(models.Model):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/qualification/', validators=[FileExtensionValidator(['jpg'])]
@@ -203,7 +193,6 @@ class QualificationExpectation(BaseModel):
 
 
 class PayBenefitBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/pay_benefit/', validators=[FileExtensionValidator(['jpg'])]
@@ -224,7 +213,6 @@ class AboutPayBenefit(BaseModel):
 
 
 class DriverTrainingProgramBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/training_program/', validators=[FileExtensionValidator(['jpg'])]
@@ -242,7 +230,6 @@ class TrainingProgram(BaseModel):
 
 
 class CDLHolderBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/cdl_holders/', validators=[FileExtensionValidator(['jpg'])]
@@ -258,7 +245,6 @@ class CDLHolderAdvantage(BaseModel):
 
 
 class DriverAwardBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/driver_award/', validators=[FileExtensionValidator(['jpg'])]
@@ -288,7 +274,6 @@ class SafetyChampionAwardsStar(BaseModel):
 
 
 class JobsSaidTransportBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/jobs_said_transport/', validators=[FileExtensionValidator(['jpg'])]
@@ -309,7 +294,6 @@ class KeyResponsibility(BaseModel):
 
 
 class BenefitBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/benefit/', validators=[FileExtensionValidator(['jpg'])]
@@ -340,7 +324,6 @@ class AdditionalBenefitsItem(BaseModel):
 
 
 class CompanyCulture(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/company_culture/', validators=[FileExtensionValidator(['jpg'])]
@@ -357,7 +340,6 @@ class CompanyCultureItem(BaseModel):
 
 
 class LeasePurchaseBanner(BaseModel):
-    banner_title = models.CharField(max_length=150)
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/lease_purchase/', validators=[FileExtensionValidator(['jpg'])]

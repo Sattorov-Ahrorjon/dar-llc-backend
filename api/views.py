@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from exceptions.error_message import ErrorCodes
 from exceptions.error_code import CustomAPIException
-import models
+from api import models
 from .serializers import (
     HomeBannerSerializer, CompanyCultureBannerSerializer, CompanyProgramsBannerSerializer,
     LeadershipTeamBannerSerializer, TeamMemberSerializer, EquipmentBannerSerializer,
