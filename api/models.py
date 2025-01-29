@@ -321,7 +321,7 @@ class HolidayObserver(BaseModel):
     description = models.TextField()
 
 
-class Holiday(BaseModel):
+class HolidayObserverItem(BaseModel):
     name = models.CharField(max_length=90)
     icon_image = models.FileField(
         upload_to='holiday/', validators=[FileExtensionValidator(['jpg'])]

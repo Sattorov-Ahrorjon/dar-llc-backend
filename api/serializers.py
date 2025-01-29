@@ -365,16 +365,22 @@ class BenefitBannerSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
 
-        data[''] = {
+        data['additional'] = {
             'holiday_observed': {
                 'holiday_text': TextSerializer(
                     models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
                 ).data,
-                'holiday_items': ''
+                'holiday_items': ItemSerializer(
+                    models.HolidayObserverItem.objects.all(), many=True, context=self.context
+                ).data
             },
             'additional_benefits': {
-                'additional_text': '',
-                'additional_items': ''
+                'additional_text': TextSerializer(
+                    models.AdditionalBenefits.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'additional_items': ItemSerializer(
+                    models.AdditionalBenefitsItem.objects.all(), many=True, context=self.context
+                ).data
             }
         }
 
@@ -385,5 +391,102 @@ class TextSerializer(serializers.Serializer):
     description = serializers.CharField()
 
 
-class BenefitItemSerializer(serializers.Serializer):
-    pass
+class ItemSerializer(serializers.Serializer):
+    name = serializers.CharField()
+    icon_image = serializers.CharField()
+
+
+class CompanyCultureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CompanyCulture
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = CompanyCultureItemSerializer(
+            models.CompanyCultureItem.objects.all(), many=True, context=self.context
+        ).data
+        return data
+
+
+class CompanyCultureItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CompanyCultureItem
+        fields = ('id', 'title', 'definition')
+
+
+class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LeasePurchaseBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = {
+            'standard_lease': {
+                'description': TextSerializer(
+                    models.StandardLeaseDefinition.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'items': LeasePurchaseItemSerializer(
+                    models.StandardLeaseItem.objects.all(), many=True, context=self.context
+                ).data
+            },
+            'lease_purchase': {
+                'description': TextSerializer(
+                    models.LeasePurchaseDefinition.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'items': LeasePurchaseItemSerializer(
+                    models.LeasePurchaseItem.objects.all(), many=True, context=self.context
+                ).data
+            }
+        }
+        return data
+
+
+class LeasePurchaseItemSerializer(serializers.Serializer):
+    category = serializers.ReadOnlyField()
+    definition = serializers.CharField()
+
+
+class BenefitLeasingBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BenefitLeasingBanner
+        fields = ('id', 'banner_image', 'banner_description', 'information_image', 'information_description')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = {
+            'benefit_leasing': {
+                'description': TextSerializer(
+                    models.BenefitLeasingInformation.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'definition_items': BenefitDefinitionItemSerializer(
+                    models.BenefitLeasingInformationItem.objects.all(), many=True, context=self.context
+                ).data,
+                'star_items': BenefitDefinitionItemSerializer(
+                    models.BenefitLeasingStar.objects.all(), many=True, context=self.context
+                ).data
+            }
+        }
+        return data
+
+
+class BenefitDefinitionItemSerializer(serializers.Serializer):
+    definition = serializers.CharField()
+
+
+class AboutUs(serializers.ModelSerializer):
+    telegram = serializers.CharField()
+    instagram = serializers.CharField()
+    facebook = serializers.CharField()
+    linkedin = serializers.CharField()
+
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Contact
+        fields = ('id', 'full_name', 'phone_number')
