@@ -11,10 +11,16 @@ from .serializers import (
     LeadershipTeamBannerSerializer, TeamMemberSerializer, EquipmentBannerSerializer,
     MaintenanceBannerSerializer, DarNewsBannerSerializer, DarNewsDetailSerializer,
     RefrigeratedDivisionBannerSerializer, FlatbedDivisionBannerSerializer,
-    QualificationExpectationBannerSerializer
+    QualificationExpectationBannerSerializer, PayBenefitBannerSerializer,
+    DriverTrainingProgramBannerSerializer, CDLHolderBannerSerializer,
+    DriverAwardBannerSerializer, JobsSaidTransportBannerSerializer,
+    JobsSaidTransportDetailSerializer, BenefitBannerSerializer,
+    CompanyCultureSerializer, LeasePurchaseBannerSerializer,
+    BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer
 )
 from .repository.team_members_paginator import team_members_paginator
 from .repository.dar_news_paginator import dar_news_paginator
+from .repository.jobs_said_transport_paginator import jobs_said_transport_paginator
 
 
 class MainViewSet(ViewSet):
@@ -198,3 +204,167 @@ class MainViewSet(ViewSet):
                 'ok': True},
             status=status.HTTP_200_OK
         )
+
+    @swagger_auto_schema(
+        tags=['PayBenefit']
+    )
+    def pay_benefit_banner(self, request):
+        data = models.PayBenefitBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': PayBenefitBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['DriverTrainingProgram']
+    )
+    def driver_training_program_banner(self, request):
+        data = models.DriverTrainingProgramBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': DriverTrainingProgramBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['CDLHolders']
+    )
+    def cdl_holder_banner(self, request):
+        data = models.CDLHolderBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': CDLHolderBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['DriverAwards']
+    )
+    def driver_award_banner(self, request):
+        data = models.DriverAwardBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': DriverAwardBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['JobSaidTransport']
+    )
+    def jobs_said_transport_banner(self, request):
+        data = models.JobsSaidTransportBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+        return Response(
+            data={'result': JobsSaidTransportBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                name='page', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page number'),
+            openapi.Parameter(
+                name='page_size', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page size number'),
+        ],
+        tags=['JobSaidTransport']
+    )
+    def jobs_said_transport(self, request):
+        page_size = request.query_params.get('page_size') or 10
+        page = request.query_params.get('page') or 1
+        items = models.JobsSaidTransport.objects.order_by('-created_at')
+        result = jobs_said_transport_paginator(items, context={'request': request}, page=page, page_size=page_size)
+        return Response(data={'result': result, 'ok': True}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        tags=['JobSaidTransport']
+    )
+    def jobs_said_transport_detail(self, request, pk):
+        data = models.JobsSaidTransport.objects.filter(id=pk).first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+        return Response(
+            data={'result': JobsSaidTransportDetailSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['Benefit']
+    )
+    def benefit_banner(self, request):
+        data = models.BenefitBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': BenefitBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['CompanyCultureTwo']
+    )
+    def company_culture(self, request):
+        data = models.CompanyCulture.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+
+        return Response(
+            data={'result': CompanyCultureSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['LeasePurchase']
+    )
+    def lease_purchase_banner(self, request):
+        data = models.LeasePurchaseBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+        return Response(
+            data={'result': LeasePurchaseBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['BenefitLeasing']
+    )
+    def benefit_leasing_banner(self, request):
+        data = models.BenefitLeasingBanner.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+        return Response(
+            data={'result': BenefitLeasingBannerSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['AboutUs']
+    )
+    def about_us(self, request):
+        data = models.AboutUs.objects.order_by('-created_at').first()
+        if not data:
+            raise CustomAPIException(ErrorCodes.NOT_FOUND)
+        return Response(
+            data={'result': AboutUsSerializer(data, context={'request': request}).data, 'ok': True},
+            status=status.HTTP_200_OK
+        )
+
+    @swagger_auto_schema(
+        tags=['Contact']
+    )
+    def contact(self, request):
+        serializer = ContactSerializer(data=request.data)
+        if not serializer.is_valid():
+            raise CustomAPIException(ErrorCodes.VALIDATION_FAILED, message=serializer.errors)
+        serializer.save()
+        return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
