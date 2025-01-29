@@ -10,7 +10,7 @@ class HomeBannerSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['statistic'] = HomeStatisticSerializer(
-            models.HomeStatistic.objects.filter('-created_at').first(), context=self.context
+            models.HomeStatistic.objects.first(), context=self.context
         ).data
         return data
 
@@ -63,7 +63,7 @@ class EquipmentBannerSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['additional'] = EquipmentSerializer(
-            models.Equipment.objects.filter('-created_at'), many=True, context=self.context
+            models.Equipment.objects.all(), many=True, context=self.context
         ).data
         return data
 
@@ -212,3 +212,178 @@ class QualificationExpectationSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['category_name'] = dict(models.QualificationCategory).get(instance.category)
         return data
+
+
+class PayBenefitBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PayBenefitBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['company_driver_benefits'] = AboutPayBenefitSerializer(
+            models.AboutPayBenefit.objects.filter(category=1).order_by('-created_at'), many=True, context=self.context
+        ).data
+        data['independent_contractor_benefits'] = AboutPayBenefitSerializer(
+            models.AboutPayBenefit.objects.filter(category=2).order_by('-created_at'), many=True, context=self.context
+        ).data
+        return data
+
+
+class AboutPayBenefitSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.AboutPayBenefit
+        fields = ('id', 'category', 'title', 'description', 'icon_image')
+
+
+class DriverTrainingProgramBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DriverTrainingProgramBanner
+        fields = ('id', 'banner_title', 'banner_description', 'banner_image', 'information_description')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        result = []
+        category = models.TrainingProgramCategory.objects.order_by('-created_at')
+        for cat in category:
+            cat_items = TrainingProgramSerializer(
+                models.TrainingProgram.objects.filter(category=cat).order_by('created_at'),
+                many=True, context=self.context
+            ).data
+            result.append(
+                {
+                    'category': cat.title,
+                    'items': cat_items
+                }
+            )
+
+        data['training_program'] = result
+        return data
+
+
+class TrainingProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.TrainingProgram
+        fields = ('id', 'category', 'title')
+
+
+class CDLHolderBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CDLHolderBanner
+        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['advantage'] = CDLHolderAdvantageSerializer(
+            models.CDLHolderAdvantage.objects.all(), many=True, context=self.context
+        ).data
+        return data
+
+
+class CDLHolderAdvantageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.CDLHolderAdvantage
+        fields = ('id', 'title', 'description', 'icon_image')
+
+
+class DriverAwardBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.DriverAwardBanner
+        fields = (
+            'id', 'banner_title', 'banner_description', 'banner_image', 'information_description', 'information_image'
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['additional'] = {
+            'transport_leadership_elite': {
+                'description': DriverAwardBodyDescriptionSerializer(
+                    models.TransportLeadershipElite.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'items': DriverAwardBodyStarSerializer(
+                    models.TransportLeadershipEliteStar.objects.all(), many=True, context=self.context
+                ).data
+            },
+            'safety_champion_awards': {
+                'description': DriverAwardBodyDescriptionSerializer(
+                    models.SafetyChampionAwards.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'items': DriverAwardBodyStarSerializer(
+                    models.SafetyChampionAwardsStar.objects.all(), many=True, context=self.context
+                ).data
+            }
+        }
+
+
+class DriverAwardBodyDescriptionSerializer(serializers.Serializer):
+    description = serializers.CharField()
+
+
+class DriverAwardBodyStarSerializer(serializers.Serializer):
+    time = serializers.CharField()
+    definition = serializers.CharField()
+
+
+class JobsSaidTransportBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.JobsSaidTransportBanner
+        fields = ('id', 'banner_title', 'banner_description', 'banner_image')
+
+
+class JobsSaidTransportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.JobsSaidTransport
+        fields = ('id', 'name', 'description', 'image')
+
+
+class JobsSaidTransportDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.JobsSaidTransport
+        fields = ('id', 'name', 'description', 'image')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['key_responsibility'] = KeyResponsibilitySerializer(
+            instance.job_said_transport, many=True, context=self.context
+        ).data
+        return data
+
+
+class KeyResponsibilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.KeyResponsibility
+        fields = ('id', 'job', 'text')
+
+
+class BenefitBannerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.BenefitBanner
+        fields = ('id', 'banner_title', 'banner_description', 'banner_image', 'information_description')
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+
+        data[''] = {
+            'holiday_observed': {
+                'holiday_text': TextSerializer(
+                    models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
+                ).data,
+                'holiday_items': ''
+            },
+            'additional_benefits': {
+                'additional_text': '',
+                'additional_items': ''
+            }
+        }
+
+        return data
+
+
+class TextSerializer(serializers.Serializer):
+    description = serializers.CharField()
+
+
+class BenefitItemSerializer(serializers.Serializer):
+    pass

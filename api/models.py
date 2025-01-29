@@ -304,7 +304,7 @@ class JobsSaidTransport(BaseModel):
 
 
 class KeyResponsibility(BaseModel):
-    job = models.ForeignKey(JobsSaidTransport, on_delete=models.CASCADE)
+    job = models.ForeignKey(JobsSaidTransport, on_delete=models.CASCADE, related_name='job_said_transport')
     text = models.CharField(max_length=150)
 
 
