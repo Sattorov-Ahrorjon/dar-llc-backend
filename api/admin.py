@@ -268,11 +268,6 @@ class LeasePurchaseCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
 
 
-@admin.register(models.JobsSaidTransport)
-class JobsSaidTransportAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-
-
 @admin.register(models.TrainingProgramCategory)
 class TrainingProgramCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
