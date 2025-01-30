@@ -15,8 +15,9 @@ from .serializers import (
     DriverTrainingProgramBannerSerializer, CDLHolderBannerSerializer,
     DriverAwardBannerSerializer, JobsSaidTransportBannerSerializer,
     JobsSaidTransportDetailSerializer, BenefitBannerSerializer,
-    CompanyCultureSerializer, LeasePurchaseBannerSerializer,
-    BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer
+    CompanyCultureSerializer, LeasePurchaseBannerSerializer, DarNewsSerializer,
+    BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer,
+    JobsSaidTransportSerializer
 )
 from .repository.team_members_paginator import team_members_paginator
 from .repository.dar_news_paginator import dar_news_paginator
@@ -25,6 +26,7 @@ from .repository.jobs_said_transport_paginator import jobs_said_transport_pagina
 
 class MainViewSet(ViewSet):
     @swagger_auto_schema(
+        responses={200: HomeBannerSerializer()},
         tags=['HomeBanner'],
     )
     def homepage(self, request):
@@ -35,6 +37,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: CompanyCultureBannerSerializer()},
         tags=['CompanyCulture'],
     )
     def company_culture(self, request):
@@ -45,6 +48,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: CompanyProgramsBannerSerializer()},
         tags=['CompanyPrograms']
     )
     def company_programs(self, request):
@@ -55,6 +59,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: LeadershipTeamBannerSerializer()},
         tags=['LeadershipTeam']
     )
     def leadership_team(self, request):
@@ -71,6 +76,7 @@ class MainViewSet(ViewSet):
             openapi.Parameter(
                 name='page_size', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page size'),
         ],
+        responses={200: TeamMemberSerializer()},
         tags=['LeadershipTeam']
     )
     def leadership_teams_members(self, request):
@@ -86,6 +92,7 @@ class MainViewSet(ViewSet):
         return Response(data={'result': result, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
+        responses={200: TeamMemberSerializer()},
         tags=['LeadershipTeam'],
     )
     def leadership_teams_member(self, request, pk):
@@ -99,6 +106,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: EquipmentBannerSerializer()},
         tags=['Equipment']
     )
     def equipment(self, request):
@@ -111,6 +119,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: MaintenanceBannerSerializer()},
         tags=['FleetMaintenance']
     )
     def fleet_maintenance(self, request):
@@ -124,6 +133,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: DarNewsBannerSerializer()},
         tags=['DarNews']
     )
     def dar_news_banner(self, request):
@@ -142,6 +152,7 @@ class MainViewSet(ViewSet):
             openapi.Parameter(
                 name='page_size', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page size number'),
         ],
+        responses={200: DarNewsSerializer()},
         tags=['DarNews']
     )
     def dar_news_list(self, request):
@@ -156,6 +167,7 @@ class MainViewSet(ViewSet):
         return Response(data={'result': result, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
+        responses={200: DarNewsDetailSerializer()},
         tags=['DarNews']
     )
     def dar_news_detail(self, request, pk):
@@ -168,6 +180,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: RefrigeratedDivisionBannerSerializer()},
         tags=['RefrigeratedDivision'],
     )
     def refrigerated_division(self, request):
@@ -180,6 +193,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: FlatbedDivisionBannerSerializer()},
         tags=['FlatbedDivision']
     )
     def flatbed_division(self, request):
@@ -192,6 +206,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: QualificationExpectationBannerSerializer()},
         tags=['QualificationExpectation']
     )
     def qualification_expectation(self, request):
@@ -206,6 +221,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: PayBenefitBannerSerializer()},
         tags=['PayBenefit']
     )
     def pay_benefit_banner(self, request):
@@ -219,6 +235,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: DriverTrainingProgramBannerSerializer()},
         tags=['DriverTrainingProgram']
     )
     def driver_training_program_banner(self, request):
@@ -232,6 +249,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: CDLHolderBannerSerializer()},
         tags=['CDLHolders']
     )
     def cdl_holder_banner(self, request):
@@ -245,6 +263,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: DriverAwardBannerSerializer()},
         tags=['DriverAwards']
     )
     def driver_award_banner(self, request):
@@ -258,6 +277,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: JobsSaidTransportBannerSerializer()},
         tags=['JobSaidTransport']
     )
     def jobs_said_transport_banner(self, request):
@@ -276,6 +296,7 @@ class MainViewSet(ViewSet):
             openapi.Parameter(
                 name='page_size', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page size number'),
         ],
+        responses={200: JobsSaidTransportSerializer()},
         tags=['JobSaidTransport']
     )
     def jobs_said_transport(self, request):
@@ -286,6 +307,7 @@ class MainViewSet(ViewSet):
         return Response(data={'result': result, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
+        responses={200: JobsSaidTransportDetailSerializer()},
         tags=['JobSaidTransport']
     )
     def jobs_said_transport_detail(self, request, pk):
@@ -298,6 +320,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: BenefitBannerSerializer()},
         tags=['Benefit']
     )
     def benefit_banner(self, request):
@@ -311,9 +334,10 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: CompanyCultureSerializer()},
         tags=['CompanyCultureTwo']
     )
-    def company_culture(self, request):
+    def company_culture_two(self, request):
         data = models.CompanyCulture.objects.order_by('-created_at').first()
         if not data:
             raise CustomAPIException(ErrorCodes.NOT_FOUND)
@@ -324,6 +348,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: LeasePurchaseBannerSerializer()},
         tags=['LeasePurchase']
     )
     def lease_purchase_banner(self, request):
@@ -336,6 +361,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: BenefitLeasingBannerSerializer()},
         tags=['BenefitLeasing']
     )
     def benefit_leasing_banner(self, request):
@@ -348,6 +374,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: AboutUsSerializer()},
         tags=['AboutUs']
     )
     def about_us(self, request):
@@ -360,6 +387,7 @@ class MainViewSet(ViewSet):
         )
 
     @swagger_auto_schema(
+        responses={200: ContactSerializer()},
         tags=['Contact']
     )
     def contact(self, request):

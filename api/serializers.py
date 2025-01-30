@@ -465,7 +465,7 @@ class BenefitDefinitionItemSerializer(serializers.Serializer):
     definition = serializers.CharField()
 
 
-class AboutUsSerializer(serializers.ModelSerializer):
+class AboutUsSerializer(serializers.Serializer):
     telegram = serializers.CharField()
     instagram = serializers.CharField()
     facebook = serializers.CharField()
