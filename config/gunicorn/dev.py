@@ -1,6 +1,6 @@
 
 wsgi_app = 'config.wsgi:application'
-bind = "0.0.0.0:8000"
+bind = "0.0.0.0:8002"
 workers = 2
 
 worker_class = "sync"
