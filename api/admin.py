@@ -261,3 +261,23 @@ class AboutUsAdmin(admin.ModelAdmin):
 @admin.register(models.Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('id', 'full_name')
+
+
+@admin.register(models.LeasePurchaseCategory)
+class LeasePurchaseCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+
+
+@admin.register(models.JobsSaidTransport)
+class JobsSaidTransportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+
+
+@admin.register(models.TrainingProgramCategory)
+class TrainingProgramCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+
+
+@admin.register(models.ApartAdvantageCategory)
+class ApartAdvantageCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
