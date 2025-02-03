@@ -87,26 +87,17 @@ class MaintenanceBannerSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['benefits'] = {
             'benefits_top_items': MaintenanceBenefitSerializer(
-                models.MaintenanceBenefit.objects.filter('-created_at', is_top=True),
+                models.MaintenanceBenefit.objects.filter(is_top=True),
                 many=True, context=self.context
             ).data,
             'team_images': MaintenanceBenefitImageSerializer(
-                models.MaintenanceBenefitImage.objects.filter('-created_at'), many=True, context=self.context
-            ).data,
-            'benefits_text': MaintenanceBenefitTextSerializer(
-                models.MaintenanceBenefitText.objects.filter('-created_at').first(), context=self.context
+                models.MaintenanceBenefitImage.objects.all(), many=True, context=self.context
             ).data,
             'benefits_items': MaintenanceBenefitSerializer(
-                models.MaintenanceBenefit.objects.filter('-created_at', is_top=False),
+                models.MaintenanceBenefit.objects.filter(is_top=False),
                 many=True, context=self.context
             ).data,
         }
-
-
-class MaintenanceBenefitTextSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.MaintenanceBenefitText
-        fields = ('id', 'description')
 
 
 class MaintenanceBenefitSerializer(serializers.ModelSerializer):
@@ -141,15 +132,11 @@ class DarNewsDetailSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['additional_news'] = DarNewsSerializer(
-            models.DarNews.objects.filter('-created_at'), many=True, context=self.context
+            models.DarNews.objects.all(), many=True, context=self.context
         ).data
 
         data['apart_advantage'] = ApartAdvantageSerializer(
-            models.ApartAdvantage.objects.filter('-created_at'), many=True, context=self.context
-        ).data
-
-        data['our_requirements'] = OurRequirementSerializer(
-            models.OurRequirement.objects.filter('-created_at'), many=True, context=self.context
+            models.ApartAdvantage.objects.all(), many=True, context=self.context
         ).data
 
         return data
@@ -158,18 +145,7 @@ class DarNewsDetailSerializer(serializers.ModelSerializer):
 class ApartAdvantageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ApartAdvantage
-        fields = ('id', 'advantage_category', 'advantage_text')
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['advantage_category'] = getattr(instance.advantage_category, 'title', 'Not category')
-        return data
-
-
-class OurRequirementSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.OurRequirement
-        fields = ('id', 'title')
+        fields = ('id', 'text')
 
 
 class RefrigeratedDivisionBannerSerializer(serializers.ModelSerializer):
@@ -192,7 +168,7 @@ class QualificationExpectationBannerSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['additional'] = QualificationExpectationSerializer(
-            models.QualificationExpectation.objects.filter('-created_at'), many=True, context=self.context
+            models.QualificationExpectation.objects.all(), many=True, context=self.context
         ).data
         return data
 
@@ -291,17 +267,11 @@ class DriverAwardBannerSerializer(serializers.ModelSerializer):
             'transport_leadership_elite': {
                 'description': DriverAwardBodyDescriptionSerializer(
                     models.TransportLeadershipElite.objects.order_by('-created_at').first(), context=self.context
-                ).data,
-                'items': DriverAwardBodyStarSerializer(
-                    models.TransportLeadershipEliteStar.objects.all(), many=True, context=self.context
                 ).data
             },
             'safety_champion_awards': {
                 'description': DriverAwardBodyDescriptionSerializer(
                     models.SafetyChampionAwards.objects.order_by('-created_at').first(), context=self.context
-                ).data,
-                'items': DriverAwardBodyStarSerializer(
-                    models.SafetyChampionAwardsStar.objects.all(), many=True, context=self.context
                 ).data
             }
         }
@@ -360,20 +330,13 @@ class BenefitBannerSerializer(serializers.ModelSerializer):
                 'holiday_text': TextSerializer(
                     models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
                 ).data,
-                'holiday_items': ItemSerializer(
-                    models.HolidayObserverItem.objects.all(), many=True, context=self.context
-                ).data
             },
             'additional_benefits': {
                 'additional_text': TextSerializer(
                     models.AdditionalBenefits.objects.order_by('-created_at').first(), context=self.context
-                ).data,
-                'additional_items': ItemSerializer(
-                    models.AdditionalBenefitsItem.objects.all(), many=True, context=self.context
                 ).data
             }
         }
-
         return data
 
 
@@ -452,9 +415,6 @@ class BenefitLeasingBannerSerializer(serializers.ModelSerializer):
                 ).data,
                 'definition_items': BenefitDefinitionItemSerializer(
                     models.BenefitLeasingInformationItem.objects.all(), many=True, context=self.context
-                ).data,
-                'star_items': BenefitDefinitionItemSerializer(
-                    models.BenefitLeasingStar.objects.all(), many=True, context=self.context
                 ).data
             }
         }

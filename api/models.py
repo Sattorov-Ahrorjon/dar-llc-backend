@@ -1,5 +1,7 @@
 from django.db import models
+from tinymce.models import HTMLField
 from django.core.validators import FileExtensionValidator
+from django.template.defaultfilters import truncatechars
 
 QualificationCategory = (
     (1, 'Minimum Requirements'),
@@ -26,6 +28,10 @@ class HomeBanner(BaseModel):
     banner_description = models.TextField()
     banner_video = models.FileField(
         upload_to='banner/home/', validators=[FileExtensionValidator(['mp4'])])
+
+    @property
+    def banner_text(self):
+        return truncatechars(self.banner_description, 50)
 
     class Meta:
         ordering = ('-created_at',)
@@ -59,6 +65,10 @@ class CompanyCultureBanner(BaseModel):
     information_image = models.FileField(
         upload_to='about/culture/', validators=[FileExtensionValidator(['jpg'])])
     information_description = models.TextField()
+
+    @property
+    def short_description(self):
+        return truncatechars(self.banner_description, 100)
 
     class Meta:
         ordering = ('-created_at',)
@@ -165,17 +175,6 @@ class MaintenanceBanner(BaseModel):
         return self.banner_description
 
 
-class MaintenanceBenefitText(BaseModel):
-    description = models.TextField()
-
-    class Meta:
-        verbose_name = 'Maintenance benefit'
-        verbose_name_plural = 'Maintenance benefits'
-
-    def __str__(self):
-        return self.description
-
-
 class MaintenanceBenefit(models.Model):
     about = models.CharField(max_length=150)
     is_top = models.BooleanField(default=False)
@@ -230,35 +229,19 @@ class DarNews(BaseModel):
         return self.title
 
 
-class ApartAdvantageCategory(BaseModel):
-    title = models.CharField(max_length=150)
-
-    class Meta:
-        verbose_name = 'Apart advantage category'
-        verbose_name_plural = 'Apart advantage category'
-
-
 class ApartAdvantage(BaseModel):
-    advantage_category = models.ForeignKey(ApartAdvantageCategory, on_delete=models.CASCADE)
-    advantage_text = models.CharField(max_length=250)
+    text = HTMLField()
+
+    @property
+    def short_text(self):
+        return truncatechars(self.text, 100)
 
     class Meta:
         verbose_name = 'Apart advantage'
         verbose_name_plural = 'Apart advantage'
 
     def __str__(self):
-        return self.advantage_category.title
-
-
-class OurRequirement(BaseModel):
-    title = models.CharField(max_length=150)
-
-    class Meta:
-        verbose_name = 'Our requirement'
-        verbose_name_plural = 'Our requirements'
-
-    def __str__(self):
-        return self.title
+        return str(self.id)
 
 
 class RefrigeratedDivisionBanner(BaseModel):
@@ -438,6 +421,10 @@ class DriverAwardBanner(BaseModel):
         upload_to='driver_award/', validators=[FileExtensionValidator(['jpg'])]
     )
 
+    @property
+    def banner_text(self):
+        return truncatechars(self.banner_description, 50)
+
     class Meta:
         verbose_name = 'Driver award banner'
         verbose_name_plural = 'Driver award banners'
@@ -457,18 +444,6 @@ class TransportLeadershipElite(BaseModel):
         return self.description
 
 
-class TransportLeadershipEliteStar(BaseModel):
-    time = models.CharField(max_length=150)
-    definition = models.TextField()
-
-    class Meta:
-        verbose_name = 'Transport leadership elite star'
-        verbose_name_plural = 'Transport leadership elite stars'
-
-    def __str__(self):
-        return self.time
-
-
 class SafetyChampionAwards(BaseModel):
     description = models.TextField()
 
@@ -480,23 +455,15 @@ class SafetyChampionAwards(BaseModel):
         return self.description
 
 
-class SafetyChampionAwardsStar(BaseModel):
-    time = models.CharField(max_length=150)
-    definition = models.TextField()
-
-    class Meta:
-        verbose_name = 'Safety champion awards star'
-        verbose_name_plural = 'Safety champion awards stars'
-
-    def __str__(self):
-        return self.time
-
-
 class JobsSaidTransportBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/jobs_said_transport/', validators=[FileExtensionValidator(['jpg'])]
     )
+
+    @property
+    def banner_text(self):
+        return truncatechars(self.banner_description, 50)
 
     class Meta:
         verbose_name = 'Jobs said transport banner'
@@ -559,20 +526,6 @@ class HolidayObserver(BaseModel):
         return self.description
 
 
-class HolidayObserverItem(BaseModel):
-    name = models.CharField(max_length=90)
-    icon_image = models.FileField(
-        upload_to='holiday/', validators=[FileExtensionValidator(['jpg'])]
-    )
-
-    class Meta:
-        verbose_name = 'Holiday observer item'
-        verbose_name_plural = 'Holiday observer items'
-
-    def __str__(self):
-        return self.name
-
-
 class AdditionalBenefits(BaseModel):
     description = models.TextField()
 
@@ -582,20 +535,6 @@ class AdditionalBenefits(BaseModel):
 
     def __str__(self):
         return self.description
-
-
-class AdditionalBenefitsItem(BaseModel):
-    name = models.CharField(max_length=90)
-    icon_image = models.FileField(
-        upload_to='additional_benefits/', validators=[FileExtensionValidator(['jpg'])]
-    )
-
-    class Meta:
-        verbose_name = 'Additional benefits item'
-        verbose_name_plural = 'Additional benefits items'
-
-    def __str__(self):
-        return self.name
 
 
 class CompanyCulture(BaseModel):
@@ -754,17 +693,6 @@ class BenefitLeasingInformationItem(BaseModel):
         return self.definition
 
 
-class BenefitLeasingStar(BaseModel):
-    definition = models.CharField(max_length=100)
-
-    class Meta:
-        verbose_name = 'Benefit leasing star'
-        verbose_name_plural = 'Benefit leasing stars'
-
-    def __str__(self):
-        return self.definition
-
-
 class AboutUs(BaseModel):
     telegram = models.CharField(max_length=40, blank=True, null=True)
     instagram = models.CharField(max_length=40, blank=True, null=True)
@@ -783,6 +711,7 @@ class Contact(BaseModel):
     full_name = models.CharField(max_length=60)
     email = models.EmailField()
     phone_number = models.CharField(max_length=15)
+    message = models.TextField(blank=True, null=True)
 
     class Meta:
         verbose_name = 'Contact'

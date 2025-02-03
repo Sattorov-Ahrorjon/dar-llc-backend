@@ -4,7 +4,8 @@ from api import models
 
 @admin.register(models.HomeBanner)
 class HomeBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'banner_description')
+    list_display = ('id', 'banner_text')
+    list_display_links = ('id', 'banner_text')
 
 
 @admin.register(models.HomeStatistic)
@@ -14,7 +15,8 @@ class HomeStatisticAdmin(admin.ModelAdmin):
 
 @admin.register(models.CompanyCultureBanner)
 class CompanyCultureBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'banner_description')
+    list_display = ('id', 'short_description')
+    list_display_links = ('id', 'short_description')
 
 
 @admin.register(models.CompanyProgramsBanner)
@@ -48,11 +50,6 @@ class MaintenanceBannerAdmin(admin.ModelAdmin):
     list_display = ('id', 'banner_description')
 
 
-@admin.register(models.MaintenanceBenefitText)
-class MaintenanceBenefitTextAdmin(admin.ModelAdmin):
-    list_display = ('id', 'description')
-
-
 @admin.register(models.MaintenanceBenefit)
 class MaintenanceBenefitAdmin(admin.ModelAdmin):
     list_display = ('id', 'about')
@@ -75,12 +72,8 @@ class DarNewsAdmin(admin.ModelAdmin):
 
 @admin.register(models.ApartAdvantage)
 class ApartAdvantageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'advantage_category', 'advantage_text')
-
-
-@admin.register(models.OurRequirement)
-class OurRequirementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
+    list_display = ('id', 'short_text')
+    list_display_links = ('id', 'short_text')
 
 
 @admin.register(models.RefrigeratedDivisionBanner)
@@ -135,7 +128,8 @@ class CDLHolderAdvantageAdmin(admin.ModelAdmin):
 
 @admin.register(models.DriverAwardBanner)
 class DriverAwardBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'banner_description')
+    list_display = ('id', 'banner_text')
+    list_display_links = ('id', 'banner_text')
 
 
 @admin.register(models.TransportLeadershipElite)
@@ -143,24 +137,15 @@ class TransportLeadershipEliteAdmin(admin.ModelAdmin):
     list_display = ('id', 'description')
 
 
-@admin.register(models.TransportLeadershipEliteStar)
-class TransportLeadershipEliteStarAdmin(admin.ModelAdmin):
-    list_display = ('id', 'time', 'definition')
-
-
 @admin.register(models.SafetyChampionAwards)
 class SafetyChampionAwardsAdmin(admin.ModelAdmin):
     list_display = ('id', 'description')
 
 
-@admin.register(models.SafetyChampionAwardsStar)
-class SafetyChampionAwardsStarAdmin(admin.ModelAdmin):
-    list_display = ('id', 'time', 'definition')
-
-
 @admin.register(models.JobsSaidTransportBanner)
 class JobsSaidTransportBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'banner_description')
+    list_display = ('id', 'banner_text')
+    list_display_links = ('id', 'banner_text')
 
 
 @admin.register(models.JobsSaidTransport)
@@ -183,19 +168,9 @@ class HolidayObserverAdmin(admin.ModelAdmin):
     list_display = ('id', 'description')
 
 
-@admin.register(models.HolidayObserverItem)
-class HolidayObserverItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
-
-
 @admin.register(models.AdditionalBenefits)
 class AdditionalBenefitsAdmin(admin.ModelAdmin):
     list_display = ('id', 'description')
-
-
-@admin.register(models.AdditionalBenefitsItem)
-class AdditionalBenefitsItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
 
 
 @admin.register(models.CompanyCulture)
@@ -248,11 +223,6 @@ class BenefitLeasingInformationItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'definition')
 
 
-@admin.register(models.BenefitLeasingStar)
-class BenefitLeasingStarAdmin(admin.ModelAdmin):
-    list_display = ('id', 'definition')
-
-
 @admin.register(models.AboutUs)
 class AboutUsAdmin(admin.ModelAdmin):
     list_display = ('id', 'telegram', 'instagram', 'facebook', 'linkedin')
@@ -270,9 +240,4 @@ class LeasePurchaseCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.TrainingProgramCategory)
 class TrainingProgramCategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-
-
-@admin.register(models.ApartAdvantageCategory)
-class ApartAdvantageCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
