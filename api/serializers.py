@@ -191,18 +191,18 @@ class PayBenefitBannerSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['company_driver_benefits'] = AboutPayBenefitSerializer(
-            models.AboutPayBenefit.objects.filter(category=1).order_by('-created_at'), many=True, context=self.context
+        data['company_driver_benefits'] = PayBenefitItemSerializer(
+            models.PayBenefitItem.objects.filter(category=1).order_by('-created_at'), many=True, context=self.context
         ).data
-        data['independent_contractor_benefits'] = AboutPayBenefitSerializer(
-            models.AboutPayBenefit.objects.filter(category=2).order_by('-created_at'), many=True, context=self.context
+        data['independent_contractor_benefits'] = PayBenefitItemSerializer(
+            models.PayBenefitItem.objects.filter(category=2).order_by('-created_at'), many=True, context=self.context
         ).data
         return data
 
 
-class AboutPayBenefitSerializer(serializers.ModelSerializer):
+class PayBenefitItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.AboutPayBenefit
+        model = models.PayBenefitItem
         fields = ('id', 'category', 'title', 'description', 'icon_image')
 
 
@@ -397,8 +397,8 @@ class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
 
 
 class LeasePurchaseItemSerializer(serializers.Serializer):
-    category = serializers.ReadOnlyField()
-    definition = serializers.CharField()
+    title = serializers.CharField()
+    description = serializers.CharField()
 
 
 class BenefitLeasingBannerSerializer(serializers.ModelSerializer):

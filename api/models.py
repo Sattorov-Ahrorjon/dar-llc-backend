@@ -39,7 +39,7 @@ class HomeBanner(BaseModel):
         verbose_name_plural = 'Home banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
 
 
 class HomeStatistic(BaseModel):
@@ -55,7 +55,11 @@ class HomeStatistic(BaseModel):
         verbose_name_plural = 'Home statistics'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 50)
 
 
 class CompanyCultureBanner(BaseModel):
@@ -68,7 +72,7 @@ class CompanyCultureBanner(BaseModel):
 
     @property
     def short_description(self):
-        return truncatechars(self.banner_description, 100)
+        return truncatechars(self.banner_description, 50)
 
     class Meta:
         ordering = ('-created_at',)
@@ -76,7 +80,7 @@ class CompanyCultureBanner(BaseModel):
         verbose_name_plural = 'Company culture banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
 
 
 class CompanyProgramsBanner(BaseModel):
@@ -94,7 +98,11 @@ class CompanyProgramsBanner(BaseModel):
         verbose_name_plural = 'Company programs banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class LeadershipTeamBanner(BaseModel):
@@ -109,7 +117,11 @@ class LeadershipTeamBanner(BaseModel):
         verbose_name_plural = 'Leadership team banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class TeamMember(BaseModel):
@@ -138,7 +150,11 @@ class EquipmentBanner(BaseModel):
         verbose_name_plural = 'Equipment banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class Equipment(BaseModel):
@@ -172,7 +188,11 @@ class MaintenanceBanner(BaseModel):
         verbose_name_plural = 'Maintenance banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 60)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.banner_description, 60)
 
 
 class MaintenanceBenefit(models.Model):
@@ -180,8 +200,8 @@ class MaintenanceBenefit(models.Model):
     is_top = models.BooleanField(default=False)
 
     class Meta:
-        verbose_name = 'Maintenance benefit'
-        verbose_name_plural = 'Maintenance benefits'
+        verbose_name = 'Maintenance benefit text'
+        verbose_name_plural = 'Maintenance benefits texts'
 
     def __str__(self):
         return self.about
@@ -193,11 +213,15 @@ class MaintenanceBenefitImage(BaseModel):
     )
 
     class Meta:
-        verbose_name = 'Maintenance benefit'
-        verbose_name_plural = 'Maintenance benefits'
+        verbose_name = 'Maintenance benefit image'
+        verbose_name_plural = 'Maintenance benefit images'
 
     def __str__(self):
-        return str(self.id)
+        return f"Image num: {str(self.id)}"
+
+    @property
+    def item_link(self):
+        return 'item_link'
 
 
 class DarNewsBanner(BaseModel):
@@ -211,7 +235,11 @@ class DarNewsBanner(BaseModel):
         verbose_name_plural = 'Dar news banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class DarNews(BaseModel):
@@ -228,6 +256,10 @@ class DarNews(BaseModel):
     def __str__(self):
         return self.title
 
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 50)
+
 
 class ApartAdvantage(BaseModel):
     text = HTMLField()
@@ -241,7 +273,7 @@ class ApartAdvantage(BaseModel):
         verbose_name_plural = 'Apart advantage'
 
     def __str__(self):
-        return str(self.id)
+        return truncatechars(self.text, 70)
 
 
 class RefrigeratedDivisionBanner(BaseModel):
@@ -259,7 +291,11 @@ class RefrigeratedDivisionBanner(BaseModel):
         verbose_name_plural = 'Refrigerated division banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 60)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.banner_description, 60)
 
 
 class FlatbedDivisionBanner(BaseModel):
@@ -277,7 +313,11 @@ class FlatbedDivisionBanner(BaseModel):
         verbose_name_plural = 'Flatbed division banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class QualificationExpectationBanner(models.Model):
@@ -295,7 +335,11 @@ class QualificationExpectationBanner(models.Model):
         verbose_name_plural = 'Qualification expectation banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 60)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 60)
 
 
 class QualificationExpectation(BaseModel):
@@ -325,10 +369,14 @@ class PayBenefitBanner(BaseModel):
         verbose_name_plural = 'Pay benefits banner'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 60)
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.banner_description, 60)
 
 
-class AboutPayBenefit(BaseModel):
+class PayBenefitItem(BaseModel):
     category = models.IntegerField(choices=AboutPayBenefitCategory, default=1)
     title = models.CharField(max_length=150)
     description = models.TextField()
@@ -337,8 +385,8 @@ class AboutPayBenefit(BaseModel):
     )
 
     class Meta:
-        verbose_name = 'About pay benefit'
-        verbose_name_plural = 'About pay benefits'
+        verbose_name = 'Pay Benefit Item'
+        verbose_name_plural = 'Pay Benefit Items'
 
     def __str__(self):
         return self.title
@@ -356,7 +404,11 @@ class DriverTrainingProgramBanner(BaseModel):
         verbose_name_plural = 'Driver training program banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class TrainingProgramCategory(BaseModel):
@@ -393,7 +445,11 @@ class CDLHolderBanner(BaseModel):
         verbose_name_plural = 'CDL holder banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class CDLHolderAdvantage(BaseModel):
@@ -409,6 +465,10 @@ class CDLHolderAdvantage(BaseModel):
 
     def __str__(self):
         return self.title
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 50)
 
 
 class DriverAwardBanner(BaseModel):
@@ -430,7 +490,7 @@ class DriverAwardBanner(BaseModel):
         verbose_name_plural = 'Driver award banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
 
 
 class TransportLeadershipElite(BaseModel):
@@ -441,7 +501,11 @@ class TransportLeadershipElite(BaseModel):
         verbose_name_plural = 'Transport leadership elites'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 80)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 80)
 
 
 class SafetyChampionAwards(BaseModel):
@@ -452,7 +516,11 @@ class SafetyChampionAwards(BaseModel):
         verbose_name_plural = 'Safety champion awards'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 60)
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.description, 60)
 
 
 class JobsSaidTransportBanner(BaseModel):
@@ -470,7 +538,7 @@ class JobsSaidTransportBanner(BaseModel):
         verbose_name_plural = 'Jobs said transport banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
 
 
 class JobsSaidTransport(BaseModel):
@@ -486,6 +554,10 @@ class JobsSaidTransport(BaseModel):
 
     def __str__(self):
         return self.name
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.description, 50)
 
 
 class KeyResponsibility(BaseModel):
@@ -523,7 +595,11 @@ class HolidayObserver(BaseModel):
         verbose_name_plural = 'Holiday observers'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 50)
+
+    @property
+    def banner_text(self):
+        return truncatechars(self.description, 50)
 
 
 class AdditionalBenefits(BaseModel):
@@ -534,7 +610,11 @@ class AdditionalBenefits(BaseModel):
         verbose_name_plural = 'Additional benefits'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 70)
+
+    @property
+    def short_description(self):
+        return truncatechars(self.description, 70)
 
 
 class CompanyCulture(BaseModel):
@@ -552,7 +632,11 @@ class CompanyCulture(BaseModel):
         verbose_name_plural = 'Company culture'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class CompanyCultureItem(BaseModel):
@@ -565,6 +649,10 @@ class CompanyCultureItem(BaseModel):
 
     def __str__(self):
         return self.title
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.definition, 50)
 
 
 class LeasePurchaseBanner(BaseModel):
@@ -582,7 +670,11 @@ class LeasePurchaseBanner(BaseModel):
         verbose_name_plural = 'Lease purchase banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 50)
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.banner_description, 50)
 
 
 class StandardLeaseDefinition(BaseModel):
@@ -593,30 +685,27 @@ class StandardLeaseDefinition(BaseModel):
         verbose_name_plural = 'Standard lease definitions'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 60)
 
-
-class StandardLeaseCategory(BaseModel):
-    title = models.CharField(max_length=90)
-
-    class Meta:
-        verbose_name = 'Standard lease category'
-        verbose_name_plural = 'Standard lease categories'
-
-    def __str__(self):
-        return self.title
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 60)
 
 
 class StandardLeaseItem(BaseModel):
-    category = models.ForeignKey(StandardLeaseCategory, on_delete=models.CASCADE)
-    definition = models.CharField(max_length=150)
+    title = models.CharField(max_length=90)
+    description = HTMLField()
 
     class Meta:
         verbose_name = 'Standard lease item'
         verbose_name_plural = 'Standard lease items'
 
     def __str__(self):
-        return self.category
+        return self.title
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.description, 60)
 
 
 class LeasePurchaseDefinition(BaseModel):
@@ -627,30 +716,27 @@ class LeasePurchaseDefinition(BaseModel):
         verbose_name_plural = 'Lease purchase definitions'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 50)
 
-
-class LeasePurchaseCategory(BaseModel):
-    title = models.CharField(max_length=90)
-
-    class Meta:
-        verbose_name = 'Lease purchase category'
-        verbose_name_plural = 'Lease purchase categories'
-
-    def __str__(self):
-        return self.title
+    @property
+    def short_desc(self):
+        return truncatechars(self.description, 50)
 
 
 class LeasePurchaseItem(BaseModel):
-    category = models.ForeignKey(LeasePurchaseCategory, on_delete=models.CASCADE)
-    definition = models.CharField(max_length=150)
+    title = models.CharField(max_length=90)
+    description = HTMLField()
 
     class Meta:
         verbose_name = 'Lease purchase item'
         verbose_name_plural = 'Lease purchase items'
 
     def __str__(self):
-        return self.category
+        return self.title
+
+    @property
+    def short_desc(self):
+        return truncatechars(self.description, 50)
 
 
 class BenefitLeasingBanner(BaseModel):
@@ -668,7 +754,11 @@ class BenefitLeasingBanner(BaseModel):
         verbose_name_plural = 'Benefit leasing banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 70)
+
+    @property
+    def banner_desc(self):
+        return truncatechars(self.banner_description, 70)
 
 
 class BenefitLeasingInformation(BaseModel):
@@ -679,7 +769,11 @@ class BenefitLeasingInformation(BaseModel):
         verbose_name_plural = 'Benefit leasing informations'
 
     def __str__(self):
-        return self.description
+        return truncatechars(self.description, 50)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.description, 50)
 
 
 class BenefitLeasingInformationItem(BaseModel):
@@ -690,7 +784,11 @@ class BenefitLeasingInformationItem(BaseModel):
         verbose_name_plural = 'Benefit leasing information items'
 
     def __str__(self):
-        return self.definition
+        return truncatechars(self.definition, 70)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.definition, 50)
 
 
 class AboutUs(BaseModel):
