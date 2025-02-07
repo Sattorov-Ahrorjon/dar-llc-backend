@@ -2,6 +2,7 @@ from django.db import models
 from tinymce.models import HTMLField
 from django.core.validators import FileExtensionValidator
 from django.template.defaultfilters import truncatechars
+from django.utils import timezone
 
 QualificationCategory = (
     (1, 'Minimum Requirements'),
@@ -195,7 +196,7 @@ class MaintenanceBanner(BaseModel):
         return truncatechars(self.banner_description, 60)
 
 
-class MaintenanceBenefit(models.Model):
+class MaintenanceBenefit(BaseModel):
     about = models.CharField(max_length=150)
     is_top = models.BooleanField(default=False)
 
@@ -320,7 +321,7 @@ class FlatbedDivisionBanner(BaseModel):
         return truncatechars(self.banner_description, 50)
 
 
-class QualificationExpectationBanner(models.Model):
+class QualificationExpectationBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/qualification/', validators=[FileExtensionValidator(['jpg'])]
@@ -547,6 +548,7 @@ class JobsSaidTransport(BaseModel):
     image = models.FileField(
         upload_to='jobs_said_transport/', validators=[FileExtensionValidator(['jpg'])]
     )
+    published_date = models.DateField(blank=True, null=True, default=timezone.now)
 
     class Meta:
         verbose_name = 'Jobs said transport'

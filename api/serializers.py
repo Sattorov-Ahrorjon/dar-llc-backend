@@ -98,6 +98,7 @@ class MaintenanceBannerSerializer(serializers.ModelSerializer):
                 many=True, context=self.context
             ).data,
         }
+        return data
 
 
 class MaintenanceBenefitSerializer(serializers.ModelSerializer):
@@ -264,17 +265,14 @@ class DriverAwardBannerSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['additional'] = {
-            'transport_leadership_elite': {
-                'description': DriverAwardBodyDescriptionSerializer(
+            'transport_leadership_elite': DriverAwardBodyDescriptionSerializer(
                     models.TransportLeadershipElite.objects.order_by('-created_at').first(), context=self.context
-                ).data
-            },
-            'safety_champion_awards': {
-                'description': DriverAwardBodyDescriptionSerializer(
+                ).data,
+            'safety_champion_awards': DriverAwardBodyDescriptionSerializer(
                     models.SafetyChampionAwards.objects.order_by('-created_at').first(), context=self.context
                 ).data
-            }
         }
+        return data
 
 
 class DriverAwardBodyDescriptionSerializer(serializers.Serializer):
@@ -295,13 +293,13 @@ class JobsSaidTransportBannerSerializer(serializers.ModelSerializer):
 class JobsSaidTransportSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.JobsSaidTransport
-        fields = ('id', 'name', 'description', 'image')
+        fields = ('id', 'name', 'description', 'image', 'published_date')
 
 
 class JobsSaidTransportDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.JobsSaidTransport
-        fields = ('id', 'name', 'description', 'image')
+        fields = ('id', 'name', 'description', 'image', 'published_date')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -326,16 +324,12 @@ class BenefitBannerSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
 
         data['additional'] = {
-            'holiday_observed': {
-                'holiday_text': TextSerializer(
+            'holiday_observed': TextSerializer(
                     models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
                 ).data,
-            },
-            'additional_benefits': {
-                'additional_text': TextSerializer(
+            'additional_benefits': TextSerializer(
                     models.AdditionalBenefits.objects.order_by('-created_at').first(), context=self.context
                 ).data
-            }
         }
         return data
 
