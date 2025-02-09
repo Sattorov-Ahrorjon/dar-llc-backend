@@ -146,7 +146,7 @@ class DarNewsDetailSerializer(serializers.ModelSerializer):
 class ApartAdvantageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ApartAdvantage
-        fields = ('id', 'text')
+        fields = ('id', 'title', 'text')
 
 
 class RefrigeratedDivisionBannerSerializer(serializers.ModelSerializer):
@@ -168,21 +168,35 @@ class QualificationExpectationBannerSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
-        data['additional'] = QualificationExpectationSerializer(
-            models.QualificationExpectation.objects.all(), many=True, context=self.context
-        ).data
+        response = []
+        for cat_id, cat_text in models.QualificationCategory:
+            image = QualificationExpectationImageSerializer(
+                models.QualificationExpectationImage.objects.filter(
+                    category=cat_id).order_by('-created_at').first(), context=self.context).data
+            serializer = QualificationExpectationSerializer(
+                models.QualificationExpectation.objects.filter(
+                    category=cat_id).order_by('created_at'), many=True, context=self.context).data
+            response.append(
+                {
+                    'category': cat_text,
+                    'image': image.get('image'),
+                    'objects': serializer,
+                }
+            )
+        data['additional'] = response
         return data
 
 
 class QualificationExpectationSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QualificationExpectation
-        fields = ('id', 'category', 'instance')
+        fields = ('id', 'instance')
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['category_name'] = dict(models.QualificationCategory).get(instance.category)
-        return data
+
+class QualificationExpectationImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QualificationExpectationImage
+        fields = ('id', 'image')
 
 
 class PayBenefitBannerSerializer(serializers.ModelSerializer):
@@ -266,11 +280,11 @@ class DriverAwardBannerSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         data['additional'] = {
             'transport_leadership_elite': DriverAwardBodyDescriptionSerializer(
-                    models.TransportLeadershipElite.objects.order_by('-created_at').first(), context=self.context
-                ).data,
+                models.TransportLeadershipElite.objects.order_by('-created_at').first(), context=self.context
+            ).data,
             'safety_champion_awards': DriverAwardBodyDescriptionSerializer(
-                    models.SafetyChampionAwards.objects.order_by('-created_at').first(), context=self.context
-                ).data
+                models.SafetyChampionAwards.objects.order_by('-created_at').first(), context=self.context
+            ).data
         }
         return data
 
@@ -325,11 +339,11 @@ class BenefitBannerSerializer(serializers.ModelSerializer):
 
         data['additional'] = {
             'holiday_observed': TextSerializer(
-                    models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
-                ).data,
+                models.HolidayObserver.objects.order_by('-created_at').first(), context=self.context
+            ).data.get('description'),
             'additional_benefits': TextSerializer(
-                    models.AdditionalBenefits.objects.order_by('-created_at').first(), context=self.context
-                ).data
+                models.AdditionalBenefits.objects.order_by('-created_at').first(), context=self.context
+            ).data.get('description')
         }
         return data
 
@@ -373,7 +387,7 @@ class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
             'standard_lease': {
                 'description': TextSerializer(
                     models.StandardLeaseDefinition.objects.order_by('-created_at').first(), context=self.context
-                ).data,
+                ).data.get('description'),
                 'items': LeasePurchaseItemSerializer(
                     models.StandardLeaseItem.objects.all(), many=True, context=self.context
                 ).data
@@ -381,11 +395,14 @@ class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
             'lease_purchase': {
                 'description': TextSerializer(
                     models.LeasePurchaseDefinition.objects.order_by('-created_at').first(), context=self.context
-                ).data,
+                ).data.get('description'),
                 'items': LeasePurchaseItemSerializer(
                     models.LeasePurchaseItem.objects.all(), many=True, context=self.context
                 ).data
-            }
+            },
+            'images': LeasePurchaseImageSerializer(
+                models.LeasePurchaseImage.objects.all(), many=True, context=self.context
+            ).data
         }
         return data
 
@@ -393,6 +410,12 @@ class LeasePurchaseBannerSerializer(serializers.ModelSerializer):
 class LeasePurchaseItemSerializer(serializers.Serializer):
     title = serializers.CharField()
     description = serializers.CharField()
+
+
+class LeasePurchaseImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.LeasePurchaseImage
+        fields = ('id', 'image')
 
 
 class BenefitLeasingBannerSerializer(serializers.ModelSerializer):
@@ -406,7 +429,7 @@ class BenefitLeasingBannerSerializer(serializers.ModelSerializer):
             'benefit_leasing': {
                 'description': TextSerializer(
                     models.BenefitLeasingInformation.objects.order_by('-created_at').first(), context=self.context
-                ).data,
+                ).data.get('description'),
                 'definition_items': BenefitDefinitionItemSerializer(
                     models.BenefitLeasingInformationItem.objects.all(), many=True, context=self.context
                 ).data
@@ -429,4 +452,4 @@ class AboutUsSerializer(serializers.Serializer):
 class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Contact
-        fields = ('id', 'full_name', 'phone_number')
+        fields = ('id', 'full_name', 'email', 'phone_number', 'message')

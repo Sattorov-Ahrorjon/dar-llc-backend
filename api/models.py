@@ -263,6 +263,7 @@ class DarNews(BaseModel):
 
 
 class ApartAdvantage(BaseModel):
+    title = models.CharField(max_length=150)
     text = HTMLField()
 
     @property
@@ -274,7 +275,7 @@ class ApartAdvantage(BaseModel):
         verbose_name_plural = 'Apart advantage'
 
     def __str__(self):
-        return truncatechars(self.text, 70)
+        return self.title
 
 
 class RefrigeratedDivisionBanner(BaseModel):
@@ -352,7 +353,24 @@ class QualificationExpectation(BaseModel):
         verbose_name_plural = 'Qualification expectations'
 
     def __str__(self):
-        return self.instance
+        return truncatechars(self.instance, 60)
+
+    @property
+    def short_descr(self):
+        return truncatechars(self.instance, 60)
+
+
+class QualificationExpectationImage(BaseModel):
+    category = models.IntegerField(choices=QualificationCategory, default=1)
+    image = models.FileField(upload_to='qualification_expectation/',
+                             validators=[FileExtensionValidator(['jpg', 'png'])])
+
+    class Meta:
+        verbose_name = 'Qualification expectation image'
+        verbose_name_plural = 'Qualification expectation images'
+
+    def __str__(self):
+        return f"{dict(QualificationCategory).get(self.category)} {self.id}"
 
 
 class PayBenefitBanner(BaseModel):
@@ -586,7 +604,11 @@ class BenefitBanner(BaseModel):
         verbose_name_plural = 'Benefit banners'
 
     def __str__(self):
-        return self.banner_description
+        return truncatechars(self.banner_description, 60)
+
+    @property
+    def short_definition(self):
+        return truncatechars(self.information_description, 60)
 
 
 class HolidayObserver(BaseModel):
@@ -739,6 +761,21 @@ class LeasePurchaseItem(BaseModel):
     @property
     def short_desc(self):
         return truncatechars(self.description, 50)
+
+
+class LeasePurchaseImage(BaseModel):
+    image = models.FileField(upload_to='lease_purchase/', validators=[FileExtensionValidator(['jpg', 'png'])])
+
+    class Meta:
+        verbose_name = 'Lease purchase image'
+        verbose_name_plural = 'Lease purchase images'
+
+    def __str__(self):
+        return f"Image ID: {self.id}"
+
+    @property
+    def obj_link(self):
+        return f'{self.id} image_link'
 
 
 class BenefitLeasingBanner(BaseModel):

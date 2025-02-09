@@ -106,7 +106,13 @@ class QualificationExpectationBannerAdmin(admin.ModelAdmin):
 
 @admin.register(models.QualificationExpectation)
 class QualificationExpectationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'instance')
+    list_display = ('id', 'category', 'short_descr')
+    list_display_links = ('id', 'category')
+
+
+@admin.register(models.QualificationExpectationImage)
+class QualificationExpectationImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category')
     list_display_links = ('id', 'category')
 
 
@@ -184,8 +190,8 @@ class KeyResponsibilityAdmin(admin.ModelAdmin):
 
 @admin.register(models.BenefitBanner)
 class BenefitBannerAdmin(admin.ModelAdmin):
-    list_display = ('id', 'banner_description')
-    list_display_links = ('id', 'banner_description')
+    list_display = ('id', 'short_definition')
+    list_display_links = ('id', 'short_definition')
 
 
 @admin.register(models.HolidayObserver)
@@ -240,6 +246,12 @@ class LeasePurchaseDefinitionAdmin(admin.ModelAdmin):
 class LeasePurchaseItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'title', 'short_desc')
     list_display_links = ('id', 'title',)
+
+
+@admin.register(models.LeasePurchaseImage)
+class LeasePurchaseImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'obj_link')
+    list_display_links = ('id', 'obj_link')
 
 
 @admin.register(models.BenefitLeasingBanner)
