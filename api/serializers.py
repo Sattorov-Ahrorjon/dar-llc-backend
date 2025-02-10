@@ -212,6 +212,9 @@ class PayBenefitBannerSerializer(serializers.ModelSerializer):
         data['independent_contractor_benefits'] = PayBenefitItemSerializer(
             models.PayBenefitItem.objects.filter(category=2).order_by('-created_at'), many=True, context=self.context
         ).data
+        data['table'] = PayBenefitTableSerializer(
+            models.PayBenefitTable.objects.all(), many=True, context=self.context
+        ).data
         return data
 
 
@@ -219,6 +222,12 @@ class PayBenefitItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PayBenefitItem
         fields = ('id', 'category', 'title', 'description', 'icon_image')
+
+
+class PayBenefitTableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.PayBenefitTable
+        fields = ('id', 'position_type', 'dry_van', 'refrigerated', 'flatbed', 'team_bonus')
 
 
 class DriverTrainingProgramBannerSerializer(serializers.ModelSerializer):

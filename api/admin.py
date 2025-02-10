@@ -128,6 +128,12 @@ class PayBenefitItemAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'title',)
 
 
+@admin.register(models.PayBenefitTable)
+class PayBenefitTableAdmin(admin.ModelAdmin):
+    list_display = ('id', 'position_type', 'dry_van', 'team_bonus')
+    list_display_links = ('id', 'position_type', 'team_bonus')
+
+
 @admin.register(models.DriverTrainingProgramBanner)
 class DriverTrainingProgramBannerAdmin(admin.ModelAdmin):
     list_display = ('id', 'short_definition')
