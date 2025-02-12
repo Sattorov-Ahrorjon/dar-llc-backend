@@ -263,7 +263,6 @@ class DarNews(BaseModel):
 
 
 class ApartAdvantage(BaseModel):
-    title = models.CharField(max_length=150)
     text = HTMLField()
 
     @property
@@ -275,7 +274,7 @@ class ApartAdvantage(BaseModel):
         verbose_name_plural = 'Apart advantage'
 
     def __str__(self):
-        return self.title
+        return truncatechars(self.text, 100)
 
 
 class RefrigeratedDivisionBanner(BaseModel):

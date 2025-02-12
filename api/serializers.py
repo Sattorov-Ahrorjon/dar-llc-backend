@@ -137,16 +137,15 @@ class DarNewsDetailSerializer(serializers.ModelSerializer):
         ).data
 
         data['apart_advantage'] = ApartAdvantageSerializer(
-            models.ApartAdvantage.objects.all(), many=True, context=self.context
+            models.ApartAdvantage.objects.order_by('-created_at').first(), context=self.context
         ).data
-
         return data
 
 
 class ApartAdvantageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ApartAdvantage
-        fields = ('id', 'title', 'text')
+        fields = ('id', 'text')
 
 
 class RefrigeratedDivisionBannerSerializer(serializers.ModelSerializer):
