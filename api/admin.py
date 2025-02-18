@@ -108,6 +108,7 @@ class QualificationExpectationBannerAdmin(admin.ModelAdmin):
 class QualificationExpectationAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'short_descr')
     list_display_links = ('id', 'category')
+    list_filter = ('category',)
 
 
 @admin.register(models.QualificationExpectationImage)
