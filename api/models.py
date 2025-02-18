@@ -870,3 +870,15 @@ class Contact(BaseModel):
 
     def __str__(self):
         return self.full_name
+
+
+class QuickLink(BaseModel):
+    submit_pics = models.CharField(max_length=180)
+    driver_verification = models.CharField(max_length=180)
+
+    class Meta:
+        verbose_name = 'Quick link'
+        verbose_name_plural = 'Quick links'
+
+    def __str__(self):
+        return f"{self.id} Quick link"

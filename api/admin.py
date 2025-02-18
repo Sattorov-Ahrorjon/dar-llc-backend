@@ -293,3 +293,9 @@ class ContactAdmin(admin.ModelAdmin):
 class TrainingProgramCategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'title')
     list_display_links = ('id', 'title')
+
+
+@admin.register(models.QuickLink)
+class QuickLinkAdmin(admin.ModelAdmin):
+    list_display = ('id', 'submit_pics',)
+    list_display_links = ('id', 'submit_pics')

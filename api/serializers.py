@@ -461,3 +461,9 @@ class ContactSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Contact
         fields = ('id', 'full_name', 'email', 'phone_number', 'message')
+
+
+class QuickLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.QuickLink
+        fields = ('id', 'submit_pics', 'driver_verification')

@@ -17,7 +17,7 @@ from .serializers import (
     JobsSaidTransportDetailSerializer, BenefitBannerSerializer,
     CompanyCultureSerializer, LeasePurchaseBannerSerializer, DarNewsSerializer,
     BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer,
-    JobsSaidTransportSerializer
+    JobsSaidTransportSerializer, QuickLinkSerializer
 )
 from .repository.team_members_paginator import team_members_paginator
 from .repository.dar_news_paginator import dar_news_paginator
@@ -395,4 +395,13 @@ class MainViewSet(ViewSet):
         if not serializer.is_valid():
             raise CustomAPIException(ErrorCodes.VALIDATION_FAILED, message=serializer.errors)
         serializer.save()
+        return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        responses={200: QuickLinkSerializer()},
+        tags=['QuickLink']
+    )
+    def quick_link(self, request):
+        quick_link = models.QuickLink.objects.order_by('-created_at').first()
+        serializer = QuickLinkSerializer(quick_link, context={'request': request})
         return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)

@@ -29,4 +29,5 @@ urlpatterns = [
     path('benefit/leasing/banner/', views.MainViewSet.as_view({'get': 'benefit_leasing_banner'})),
     path('about/us', views.MainViewSet.as_view({'get': 'about_us'})),
     path('contact/', views.MainViewSet.as_view({'post': 'contact'})),
+    path('quick/link/', views.MainViewSet.as_view({'get': 'quick_link'})),
 ]
