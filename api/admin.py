@@ -300,3 +300,15 @@ class TrainingProgramCategoryAdmin(admin.ModelAdmin):
 class QuickLinkAdmin(admin.ModelAdmin):
     list_display = ('id', 'submit_pics',)
     list_display_links = ('id', 'submit_pics')
+
+
+@admin.register(models.JobsSaidTransportLocation)
+class JobsSaidTransportLocationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'location_link')
+    list_display_links = ('id', 'location_link')
+
+
+@admin.register(models.JobsSaidTransportCategory)
+class JobsSaidTransportCategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title')
+    list_display_links = ('id', 'title')

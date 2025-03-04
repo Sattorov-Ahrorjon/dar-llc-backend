@@ -23,6 +23,8 @@ urlpatterns = [
     path('jobs/said/transport/banner/', views.MainViewSet.as_view({'get': 'jobs_said_transport_banner'})),
     path('jobs/said/transport/', views.MainViewSet.as_view({'get': 'jobs_said_transport'})),
     path('jobs/said/transport/<int:pk>/', views.MainViewSet.as_view({'get': 'jobs_said_transport_detail'})),
+    path('jobs/said/transport/category/', views.MainViewSet.as_view({'get': 'jobs_said_transport_category'})),
+    path('jobs/said/transport/location/', views.MainViewSet.as_view({'get': 'jobs_said_transport_location'})),
     path('benefit/banner', views.MainViewSet.as_view({'get': 'benefit_banner'})),
     path('company/culture/two', views.MainViewSet.as_view({'get': 'company_culture_two'})),
     path('lease/purchase/banner', views.MainViewSet.as_view({'get': 'lease_purchase_banner'})),

@@ -17,11 +17,13 @@ from .serializers import (
     JobsSaidTransportDetailSerializer, BenefitBannerSerializer,
     CompanyCultureSerializer, LeasePurchaseBannerSerializer, DarNewsSerializer,
     BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer,
-    JobsSaidTransportSerializer, QuickLinkSerializer
+    JobsSaidTransportSerializer, QuickLinkSerializer, JobsSaidTransportCategorySerializer,
+    JobsSaidTransportLocationSerializer
 )
 from .repository.team_members_paginator import team_members_paginator
 from .repository.dar_news_paginator import dar_news_paginator
 from .repository.jobs_said_transport_paginator import jobs_said_transport_paginator
+from django.db.models import Q
 
 
 class MainViewSet(ViewSet):
@@ -295,6 +297,12 @@ class MainViewSet(ViewSet):
                 name='page', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page number'),
             openapi.Parameter(
                 name='page_size', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Page size number'),
+            openapi.Parameter(
+                name='q', in_=openapi.IN_QUERY, type=openapi.TYPE_STRING, description='Search query'),
+            openapi.Parameter(
+                name='category', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Category id number'),
+            openapi.Parameter(
+                name='location', in_=openapi.IN_QUERY, type=openapi.TYPE_INTEGER, description='Location id number')
         ],
         responses={200: JobsSaidTransportSerializer()},
         tags=['JobSaidTransport']
@@ -302,7 +310,20 @@ class MainViewSet(ViewSet):
     def jobs_said_transport(self, request):
         page_size = request.query_params.get('page_size') or 10
         page = request.query_params.get('page') or 1
-        items = models.JobsSaidTransport.objects.order_by('-created_at')
+        q = request.query_params.get('q') or ''
+        category = request.query_params.get('category')
+        location = request.query_params.get('location')
+        filter_ = Q()
+        if q:
+            filter_ &= Q(Q(name__icontains=q) | Q(description__icontains=q))
+
+        if str(category).isdigit():
+            filter_ &= Q(category_id=int(category))
+
+        if str(location).isdigit():
+            filter_ &= Q(location_id=int(location))
+
+        items = models.JobsSaidTransport.objects.filter(filter_).order_by('-created_at')
         result = jobs_said_transport_paginator(items, context={'request': request}, page=page, page_size=page_size)
         return Response(data={'result': result, 'ok': True}, status=status.HTTP_200_OK)
 
@@ -318,6 +339,24 @@ class MainViewSet(ViewSet):
             data={'result': JobsSaidTransportDetailSerializer(data, context={'request': request}).data, 'ok': True},
             status=status.HTTP_200_OK
         )
+
+    @swagger_auto_schema(
+        responses={200: JobsSaidTransportCategorySerializer()},
+        tags=['JobSaidTransport']
+    )
+    def jobs_said_transport_category(self, request):
+        category = models.JobsSaidTransportCategory.objects.all()
+        serializer = JobsSaidTransportCategorySerializer(category, many=True)
+        return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        responses={200: JobsSaidTransportLocationSerializer()},
+        tags=['JobSaidTransport']
+    )
+    def jobs_said_transport_location(self, request):
+        location = models.JobsSaidTransportLocation.objects.all()
+        serializer = JobsSaidTransportLocationSerializer(location, many=True)
+        return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         responses={200: BenefitBannerSerializer()},

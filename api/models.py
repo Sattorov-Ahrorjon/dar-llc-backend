@@ -574,6 +574,32 @@ class JobsSaidTransportBanner(BaseModel):
         return truncatechars(self.banner_description, 50)
 
 
+class JobsSaidTransportCategory(BaseModel):
+    title = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name = 'Jobs said transport category'
+        verbose_name_plural = "Jobs said transport categories"
+
+    def __str__(self):
+        return self.title
+
+
+class JobsSaidTransportLocation(BaseModel):
+    location = models.CharField(max_length=180)
+
+    class Meta:
+        verbose_name = 'Jobs said transport location'
+        verbose_name_plural = 'Jobs said transport locations'
+
+    def __str__(self):
+        return truncatechars(self.location, 60)
+
+    @property
+    def location_link(self):
+        return truncatechars(self.location, 60)
+
+
 class JobsSaidTransport(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -581,6 +607,8 @@ class JobsSaidTransport(BaseModel):
         upload_to='jobs_said_transport/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
     )
     published_date = models.DateField(blank=True, null=True, default=timezone.now)
+    category = models.ForeignKey(to='api.JobsSaidTransportCategory', on_delete=models.SET_NULL, null=True, blank=True)
+    location = models.ForeignKey(to='api.JobsSaidTransportLocation', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = 'Jobs said transport'

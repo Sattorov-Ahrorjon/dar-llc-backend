@@ -467,3 +467,15 @@ class QuickLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QuickLink
         fields = ('id', 'submit_pics', 'driver_verification')
+
+
+class JobsSaidTransportCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.JobsSaidTransportCategory
+        fields = ('id', 'title')
+
+
+class JobsSaidTransportLocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.JobsSaidTransportLocation
+        fields = ('id', 'location')
