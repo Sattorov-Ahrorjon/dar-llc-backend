@@ -29,6 +29,9 @@ class HomeBanner(BaseModel):
     banner_description = models.TextField()
     banner_video = models.FileField(
         upload_to='banner/home/', validators=[FileExtensionValidator(['mp4'])])
+    mobile_banner_video = models.FileField(
+        upload_to='banner/home/mobile/', validators=[FileExtensionValidator(['mp4'])],
+        blank=True, null=True)
 
     @property
     def banner_text(self):
@@ -67,6 +70,9 @@ class CompanyCultureBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/culture/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/culture/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_image = models.FileField(
         upload_to='about/culture/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
     information_description = models.TextField()
@@ -87,8 +93,10 @@ class CompanyCultureBanner(BaseModel):
 class CompanyProgramsBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/programs/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/programs/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/programs/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_image = models.FileField(
         upload_to='about/programs/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
     )
@@ -109,8 +117,10 @@ class CompanyProgramsBanner(BaseModel):
 class LeadershipTeamBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/teams/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/teams/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/teams/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
 
     class Meta:
@@ -145,6 +155,9 @@ class EquipmentBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
         upload_to='banner/equipment/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/equipment/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
 
     class Meta:
         verbose_name = 'Equipment banner'
@@ -180,8 +193,10 @@ class Equipment(BaseModel):
 class MaintenanceBanner(BaseModel):
     banner_description = models.TextField()
     banner_video = models.FileField(
-        upload_to='banner/maintenance/', validators=[FileExtensionValidator(['mp4'])]
-    )
+        upload_to='banner/maintenance/', validators=[FileExtensionValidator(['mp4'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/maintenance/mobile/', validators=[FileExtensionValidator(['mp4'])],
+        blank=True, null=True)
     information_description = models.TextField()
 
     class Meta:
@@ -228,8 +243,10 @@ class MaintenanceBenefitImage(BaseModel):
 class DarNewsBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/news/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/news/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/news/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
 
     class Meta:
         verbose_name = 'Dar news banner'
@@ -280,8 +297,10 @@ class ApartAdvantage(BaseModel):
 class RefrigeratedDivisionBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/refrigerated/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/refrigerated/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/refrigerated/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='refrigerated/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -302,8 +321,10 @@ class RefrigeratedDivisionBanner(BaseModel):
 class FlatbedDivisionBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/flatbed/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/flatbed/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/flatbed/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='flatbed/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -324,8 +345,10 @@ class FlatbedDivisionBanner(BaseModel):
 class QualificationExpectationBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/qualification/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/qualification/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/qualification/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='qualification/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -375,8 +398,10 @@ class QualificationExpectationImage(BaseModel):
 class PayBenefitBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/pay_benefit/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/pay_benefit/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/pay_benefit/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='pay_benefit/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -428,8 +453,10 @@ class PayBenefitTable(BaseModel):
 class DriverTrainingProgramBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/training_program/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/training_program/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/training_program/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
 
     class Meta:
@@ -470,8 +497,10 @@ class TrainingProgram(BaseModel):
 class CDLHolderBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/cdl_holders/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/cdl_holders/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/cdl_holders/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
 
     class Meta:
         verbose_name = 'CDL holder banner'
@@ -507,8 +536,10 @@ class CDLHolderAdvantage(BaseModel):
 class DriverAwardBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/driver_award/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/driver_award/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/driver_award/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='driver_award/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -559,8 +590,10 @@ class SafetyChampionAwards(BaseModel):
 class JobsSaidTransportBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/jobs_said_transport/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/jobs_said_transport/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/jobs_said_transport/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
 
     @property
     def banner_text(self):
@@ -637,8 +670,10 @@ class KeyResponsibility(BaseModel):
 class BenefitBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/benefit/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/benefit/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/benefit/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
 
     class Meta:
@@ -686,8 +721,10 @@ class AdditionalBenefits(BaseModel):
 class CompanyCulture(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/company_culture/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/company_culture/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/company_culture/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='company_culture/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -724,8 +761,10 @@ class CompanyCultureItem(BaseModel):
 class LeasePurchaseBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/lease_purchase/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/lease_purchase/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/lease_purchase/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='lease_purchase/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
@@ -823,8 +862,10 @@ class LeasePurchaseImage(BaseModel):
 class BenefitLeasingBanner(BaseModel):
     banner_description = models.TextField()
     banner_image = models.FileField(
-        upload_to='banner/benefits_leasing/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
-    )
+        upload_to='banner/benefits_leasing/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])])
+    mobile_banner_image = models.FileField(
+        upload_to='banner/benefits_leasing/mobile/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])],
+        blank=True, null=True)
     information_description = models.TextField()
     information_image = models.FileField(
         upload_to='benefits_leasing/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
