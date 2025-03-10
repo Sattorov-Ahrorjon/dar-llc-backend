@@ -16,6 +16,37 @@ AboutPayBenefitCategory = (
     (2, 'Independent Contractor Benefits')
 )
 
+DriverPosition = (
+    (1, "Driver"),
+    (2, "Office Staff"),
+    (3, "Mechanic"),
+    (4, "Other"),
+)
+
+DriverExperience = (
+    (1, "Less than 1 year"),
+    (2, "1-3 years"),
+    (3, "3-5 years"),
+    (4, "5+ years")
+)
+
+CDL_Class = (
+    ('class_a', "Class A"),
+    ('class_b', "Class B"),
+    ('class_c', "Class C")
+)
+
+WorkSchedule = (
+    ('full_time', "Full-time"),
+    ('part_time', "Part-time"),
+)
+
+ContactTime = (
+    ('morning', "Morning"),
+    ('afternoon', "Afternoon"),
+    ('evening', "Evening")
+)
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -951,3 +982,36 @@ class QuickLink(BaseModel):
 
     def __str__(self):
         return f"{self.id} Quick link"
+
+
+class Driver(BaseModel):
+    full_name = models.CharField(max_length=80)
+    phone_number = models.CharField(max_length=17)
+    email = models.EmailField()
+    city_state = models.CharField(max_length=180)
+
+    position = models.IntegerField(choices=DriverPosition, default=4)
+    available_to_start = models.DateField(blank=True, null=True)
+    valid_cdl = models.IntegerField(choices=((1, 'Yes'), (2, 'No')), default=2)
+    cdl_class = models.JSONField(default=list, blank=True)
+    experience = models.IntegerField(choices=DriverExperience, default=1)
+
+    right_to_work = models.IntegerField(choices=((1, 'Yes'), (2, 'No')), default=2)
+    work_schedule = models.JSONField(default=list, blank=True)
+    contact_time = models.JSONField(default=list, blank=True)
+
+    def get_cdl_class_display(self):
+        return [dict(CDL_Class).get(choice, choice) for choice in self.cdl_class]
+
+    def get_work_schedule_display(self):
+        return [dict(WorkSchedule).get(choice, choice) for choice in self.work_schedule]
+
+    def get_contact_time_display(self):
+        return [dict(ContactTime).get(choice, choice) for choice in self.contact_time]
+
+    class Meta:
+        verbose_name = 'Driver'
+        verbose_name_plural = 'Drivers'
+
+    def __str__(self):
+        return self.full_name

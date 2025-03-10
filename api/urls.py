@@ -32,4 +32,5 @@ urlpatterns = [
     path('about/us', views.MainViewSet.as_view({'get': 'about_us'})),
     path('contact/', views.MainViewSet.as_view({'post': 'contact'})),
     path('quick/link/', views.MainViewSet.as_view({'get': 'quick_link'})),
+    path('driver/application/', views.MainViewSet.as_view({'post': 'create_driver_application'})),
 ]

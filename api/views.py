@@ -18,7 +18,7 @@ from .serializers import (
     CompanyCultureSerializer, LeasePurchaseBannerSerializer, DarNewsSerializer,
     BenefitLeasingBannerSerializer, AboutUsSerializer, ContactSerializer,
     JobsSaidTransportSerializer, QuickLinkSerializer, JobsSaidTransportCategorySerializer,
-    JobsSaidTransportLocationSerializer
+    JobsSaidTransportLocationSerializer, DriverApplicationSerializer
 )
 from .repository.team_members_paginator import team_members_paginator
 from .repository.dar_news_paginator import dar_news_paginator
@@ -443,4 +443,16 @@ class MainViewSet(ViewSet):
     def quick_link(self, request):
         quick_link = models.QuickLink.objects.order_by('-created_at').first()
         serializer = QuickLinkSerializer(quick_link, context={'request': request})
+        return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
+        request_body=DriverApplicationSerializer,
+        responses={201: DriverApplicationSerializer()},
+        tags=['DriverApplication']
+    )
+    def create_driver_application(self, request):
+        serializer = DriverApplicationSerializer(data=request.data)
+        if not serializer.is_valid():
+            raise CustomAPIException(ErrorCodes.VALIDATION_FAILED, message=serializer.errors)
+        serializer.save()
         return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
