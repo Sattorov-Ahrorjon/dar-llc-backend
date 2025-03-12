@@ -973,8 +973,8 @@ class Contact(BaseModel):
 
 
 class QuickLink(BaseModel):
-    submit_pics = models.CharField(max_length=180)
-    driver_verification = models.CharField(max_length=180)
+    label = models.CharField(max_length=60)
+    link = models.CharField(max_length=180)
 
     class Meta:
         verbose_name = 'Quick link'

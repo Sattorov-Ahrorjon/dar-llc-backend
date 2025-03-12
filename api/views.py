@@ -442,7 +442,7 @@ class MainViewSet(ViewSet):
     )
     def quick_link(self, request):
         quick_link = models.QuickLink.objects.order_by('-created_at').first()
-        serializer = QuickLinkSerializer(quick_link, context={'request': request})
+        serializer = QuickLinkSerializer(instance=quick_link, context={'request': request})
         return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(

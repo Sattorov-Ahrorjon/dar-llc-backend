@@ -475,7 +475,8 @@ class ContactSerializer(serializers.ModelSerializer):
 class QuickLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.QuickLink
-        fields = ('id', 'submit_pics', 'driver_verification')
+        fields = ('id', 'label', 'link')
+
 
 
 class JobsSaidTransportCategorySerializer(serializers.ModelSerializer):

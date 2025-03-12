@@ -298,8 +298,8 @@ class TrainingProgramCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(models.QuickLink)
 class QuickLinkAdmin(admin.ModelAdmin):
-    list_display = ('id', 'submit_pics',)
-    list_display_links = ('id', 'submit_pics')
+    list_display = ('id', 'label',)
+    list_display_links = ('id', 'label')
 
 
 @admin.register(models.JobsSaidTransportLocation)
