@@ -346,7 +346,7 @@ class MainViewSet(ViewSet):
     )
     def jobs_said_transport_category(self, request):
         category = models.JobsSaidTransportCategory.objects.all()
-        serializer = JobsSaidTransportCategorySerializer(category, many=True)
+        serializer = JobsSaidTransportCategorySerializer(category, many=True, context={'request': request})
         return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
@@ -355,7 +355,7 @@ class MainViewSet(ViewSet):
     )
     def jobs_said_transport_location(self, request):
         location = models.JobsSaidTransportLocation.objects.all()
-        serializer = JobsSaidTransportLocationSerializer(location, many=True)
+        serializer = JobsSaidTransportLocationSerializer(location, many=True, context={'request': request})
         return Response(data={'result': serializer.data, 'ok': True}, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
@@ -430,7 +430,7 @@ class MainViewSet(ViewSet):
         tags=['Contact']
     )
     def contact(self, request):
-        serializer = ContactSerializer(data=request.data)
+        serializer = ContactSerializer(data=request.data, context={'request': request})
         if not serializer.is_valid():
             raise CustomAPIException(ErrorCodes.VALIDATION_FAILED, message=serializer.errors)
         serializer.save()
@@ -451,7 +451,7 @@ class MainViewSet(ViewSet):
         tags=['DriverApplication']
     )
     def create_driver_application(self, request):
-        serializer = DriverApplicationSerializer(data=request.data)
+        serializer = DriverApplicationSerializer(data=request.data, context={'request': request})
         if not serializer.is_valid():
             raise CustomAPIException(ErrorCodes.VALIDATION_FAILED, message=serializer.errors)
         serializer.save()

@@ -1000,6 +1000,9 @@ class Driver(BaseModel):
     work_schedule = models.JSONField(default=list, blank=True)
     contact_time = models.JSONField(default=list, blank=True)
 
+    resume = models.FileField(upload_to='driver_resume/', null=True)
+    cdl_optional_file = models.FileField(upload_to='driver_cdl_optional_file/', blank=True, null=True)
+
     def get_cdl_class_display(self):
         return [dict(CDL_Class).get(choice, choice) for choice in self.cdl_class]
 

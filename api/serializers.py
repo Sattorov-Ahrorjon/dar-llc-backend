@@ -495,5 +495,5 @@ class DriverApplicationSerializer(serializers.ModelSerializer):
         model = models.Driver
         fields = (
             'id', 'full_name', 'phone_number', 'email', 'city_state', 'position', 'available_to_start', 'valid_cdl',
-            'cdl_class', 'experience', 'right_to_work', 'work_schedule', 'contact_time'
+            'cdl_class', 'experience', 'right_to_work', 'work_schedule', 'contact_time', 'resume', 'cdl_optional_file'
         )
