@@ -7,8 +7,8 @@ worker_class = "sync"
 
 loglevel = "debug"
 
-# accesslog = "/var/log/gunicorn/access.log"
-# errorlog = "/var/log/gunicorn/error.log"
+accesslog = "/var/log/gunicorn/access.log"
+errorlog = "/var/log/gunicorn/error.log"
 
 reload = False
 
