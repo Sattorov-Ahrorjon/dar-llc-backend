@@ -20,6 +20,8 @@ SHOW_SWAGGER = int(os.getenv('SHOW_SWAGGER', 0))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000').split(",")
+
 # Application definition
 
 INSTALLED_APPS = [
