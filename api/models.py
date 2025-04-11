@@ -293,7 +293,7 @@ class DarNewsBanner(BaseModel):
 
 class DarNews(BaseModel):
     title = models.CharField(max_length=150)
-    description = models.TextField()
+    description = HTMLField()
     image = models.FileField(
         upload_to='news/', validators=[FileExtensionValidator(['jpg', 'png', 'jpeg'])]
     )
